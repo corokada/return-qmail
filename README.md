@@ -1,6 +1,6 @@
 # return-qmail
 
-## ƒRƒ“ƒeƒ“ƒc
+## ã‚³ãƒ³ãƒ†ãƒ³ãƒ„
 
 * [Enable DKIM/Domainkeys](qmail-dkim.md#0enable-dkimdomainkeys)
 

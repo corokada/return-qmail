@@ -1,29 +1,29 @@
 # return-qmail
 
-## ƒRƒ“ƒeƒ“ƒc
+## ã‚³ãƒ³ãƒ†ãƒ³ãƒ„
 
 * [Enable DKIM/Domainkeys](#0enable-dkimdomainkeys)
 
 ## 0.Enable DKIM/Domainkeys
 
-qmail‚ğDKIM‚É‘Î‰‚³‚¹‚é
+qmailã‚’DKIMã«å¯¾å¿œã•ã›ã‚‹
 
-### 1.‘O’ñğŒ
+### 1.å‰ææ¡ä»¶
 
-* qmail‚ªƒCƒ“ƒXƒg[ƒ‹Ï‚İ
+* qmailãŒã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«æ¸ˆã¿
 
-### 2.perl‚ÌDKIMƒ‚ƒWƒ…[ƒ‹‚ğƒCƒ“ƒXƒg[ƒ‹
+### 2.perlã®DKIMãƒ¢ã‚¸ãƒ¥ãƒ¼ãƒ«ã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«
 
-yum‚Å‚³‚­‚Á‚ÆƒCƒ“ƒXƒg[ƒ‹(cpan‚Å‚àOK)
+yumã§ã•ãã£ã¨ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«(cpanã§ã‚‚OK)
 ```sh
 yum -y install perl-Mail-DKIM
 or
 cpanm Mail::DKIM
 ```
 
-### 3.libdomainkeys‚ğƒCƒ“ƒXƒg[ƒ‹
+### 3.libdomainkeysã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«
 
-ƒ\[ƒXƒRƒ“ƒpƒCƒ‹‚ÅƒCƒ“ƒXƒg[ƒ‹
+ã‚½ãƒ¼ã‚¹ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã§ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«
 ```sh
 cd /usr/local/src
 wget -q -O libdomainkeys-0.69.tar.gz --no-check-certificate https://github.com/corokada/return-qmail/raw/master/libdomainkeys-0.69.tar.gz
@@ -36,9 +36,9 @@ install -m 644 domainkeys.h dktrace.h /usr/local/include
 install -m 755 dknewkey /usr/local/bin
 ```
 
-### 4.libdkim‚ğƒCƒ“ƒXƒg[ƒ‹
+### 4.libdkimã‚’ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«
 
-ƒ\[ƒXƒRƒ“ƒpƒCƒ‹‚ÅƒCƒ“ƒXƒg[ƒ‹
+ã‚½ãƒ¼ã‚¹ã‚³ãƒ³ãƒ‘ã‚¤ãƒ«ã§ã‚¤ãƒ³ã‚¹ãƒˆãƒ¼ãƒ«
 ```sh
 cd /usr/local/src
 wget -q -O libdkim-1.0.19.zip --no-check-certificate https://github.com/corokada/return-qmail/raw/master/libdkim-1.0.19.zip
@@ -52,8 +52,8 @@ make
 make install
 ```
 
-### 5.DKIM–¼EŒŸØƒXƒNƒŠƒvƒg‚ğƒ_ƒEƒ“ƒ[ƒh
-perlƒXƒNƒŠƒvƒg‚ğƒ_ƒEƒ“ƒ[ƒh
+### 5.DKIMç½²åãƒ»æ¤œè¨¼ã‚¹ã‚¯ãƒªãƒ—ãƒˆã‚’ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰
+perlã‚¹ã‚¯ãƒªãƒ—ãƒˆã‚’ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰
 ```sh
 wget -q -O /var/qmail/bin/dkimsign.pl --no-check-certificate https://github.com/corokada/return-qmail/raw/master/dkimsign.pl
 chmod +x /var/qmail/bin/dkimsign.pl
@@ -62,29 +62,29 @@ wget -q -O /var/qmail/bin/dkimverify.pl --no-check-certificate https://github.co
 chmod +x /var/qmail/bin/dkimverify.pl
 chgrp qmail /var/qmail/bin/dkimverify.pl
 ```
-DKIMŒŸØ‚Ìˆ×‚ÉMXƒŒƒR[ƒh‚Éw’è‚³‚ê‚Ä‚¢‚éƒ[ƒ‹ƒT[ƒo[–¼‚É‘‚«Š·‚¦‚é
+DKIMæ¤œè¨¼ã®ç‚ºã«MXãƒ¬ã‚³ãƒ¼ãƒ‰ã«æŒ‡å®šã•ã‚Œã¦ã„ã‚‹ãƒ¡ãƒ¼ãƒ«ã‚µãƒ¼ãƒãƒ¼åã«æ›¸ãæ›ãˆã‚‹
 ```sh
 sed -i -e "s/example.com/`hostname`/" /var/qmail/bin/dkimverify.pl
 or
 sed -i -e "s/example.com/hogehoge.jp/" /var/qmail/bin/dkimverify.pl
 ```
 
-### 6.DKIM–¼‚ğ‚·‚éÛ‚Ìì‹ÆƒfƒBƒŒƒNƒgƒŠ‚ğì¬
+### 6.DKIMç½²åã‚’ã™ã‚‹éš›ã®ä½œæ¥­ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’ä½œæˆ
 ```sh
 mkdir -p /var/domainkeys
 chown qmailr:qmail /var/domainkeys
 chmod 0700 /var/domainkeys
 ```
 
-### 7.DKIMŒŸØ‚ğ‚·‚éÛ‚Ìì‹ÆƒfƒBƒŒƒNƒgƒŠ‚ğì¬
+### 7.DKIMæ¤œè¨¼ã‚’ã™ã‚‹éš›ã®ä½œæ¥­ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’ä½œæˆ
 ```sh
 mkdir -p /var/domainkeys-verify
 chown root.root /var/domainkeys-verify
 chmod 0700 /var/domainkeys-verify
 ```
 
-### 8.ƒ[ƒ‹‘—M‚ÉDKIM–¼‚ğs‚¤wrapper‚ğƒ_ƒEƒ“ƒ[ƒh
-ƒIƒŠƒWƒiƒ‹‚Ìqmail-remote‚ÍƒŠƒl[ƒ€‚µ‚Äwrapper‚©‚çƒLƒbƒN‚³‚ê‚é‚æ‚¤‚É‚·‚é
+### 8.ãƒ¡ãƒ¼ãƒ«é€ä¿¡æ™‚ã«DKIMç½²åã‚’è¡Œã†wrapperã‚’ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰
+ã‚ªãƒªã‚¸ãƒŠãƒ«ã®qmail-remoteã¯ãƒªãƒãƒ¼ãƒ ã—ã¦wrapperã‹ã‚‰ã‚­ãƒƒã‚¯ã•ã‚Œã‚‹ã‚ˆã†ã«ã™ã‚‹
 ```sh
 mv /var/qmail/bin/qmail-remote /var/qmail/bin/qmail-remote.orig
 wget -q -O /var/qmail/bin/qmail-remote --no-check-certificate https://github.com/corokada/return-qmail/raw/master/qmail-remote
@@ -92,8 +92,8 @@ chown root:qmail /var/qmail/bin/qmail-remote
 chmod 0755 /var/qmail/bin/qmail-remote
 ```
 
-### 9.ƒ[ƒ‹óM‚ÉDKIMŒŸØ‚ğs‚¤wrapper‚ğƒ_ƒEƒ“ƒ[ƒh
-ƒIƒŠƒWƒiƒ‹‚Ìqmail-queue‚ÍƒŠƒl[ƒ€‚µ‚Äwrapper‚©‚çƒLƒbƒN‚³‚ê‚é‚æ‚¤‚É‚·‚é
+### 9.ãƒ¡ãƒ¼ãƒ«å—ä¿¡æ™‚ã«DKIMæ¤œè¨¼ã‚’è¡Œã†wrapperã‚’ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰
+ã‚ªãƒªã‚¸ãƒŠãƒ«ã®qmail-queueã¯ãƒªãƒãƒ¼ãƒ ã—ã¦wrapperã‹ã‚‰ã‚­ãƒƒã‚¯ã•ã‚Œã‚‹ã‚ˆã†ã«ã™ã‚‹
 ```sh
 mv /var/qmail/bin/qmail-queue /var/qmail/bin/qmail-queue.orig
 wget -q -O /var/qmail/bin/qmail-queue --no-check-certificate https://github.com/corokada/return-qmail/raw/master/qmail-queue
@@ -102,33 +102,33 @@ chmod 711 /var/qmail/bin/qmail-queue
 chmod u+s /var/qmail/bin/qmail-queue
 ```
 
-### 10.DKIM–¼—p‚Ì”é–§Œ®‚ğ•Û‘¶‚·‚éƒfƒBƒŒƒNƒgƒŠ‚ğì¬
+### 10.DKIMç½²åç”¨ã®ç§˜å¯†éµã‚’ä¿å­˜ã™ã‚‹ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’ä½œæˆ
 ```sh
 mkdir -p /usr/local/etc/domainkeys
 ln -s /usr/local/etc/domainkeys /etc/domainkeys
 ```
 
-### 11.DKIM–¼—p‚Ì”é–§Œ®‚ğì¬‚·‚éShell‚ğƒ_ƒEƒ“ƒ[ƒh
+### 11.DKIMç½²åç”¨ã®ç§˜å¯†éµã‚’ä½œæˆã™ã‚‹Shellã‚’ãƒ€ã‚¦ãƒ³ãƒ­ãƒ¼ãƒ‰
 ```sh
 wget -q -O /root/dkim_keygen.sh --no-check-certificate https://github.com/corokada/return-qmail/raw/master/dkim_keygen.sh
 chmod +x /root/dkim_keygen.sh
 ```
 
-### 12.”é–§Œ®‚ğì¬
-DKIM–¼—p‚Ì”é–§Œ®‚ğì¬
+### 12.ç§˜å¯†éµã‚’ä½œæˆ
+DKIMç½²åç”¨ã®ç§˜å¯†éµã‚’ä½œæˆ
 ```sh
-/root/dkim_keygen.sh [ƒhƒƒCƒ“–¼]
+/root/dkim_keygen.sh [ãƒ‰ãƒ¡ã‚¤ãƒ³å]
 ```
-ÀsŒ‹‰Ê
+å®Ÿè¡Œçµæœ
 ```sh
-[ƒhƒƒCƒ“–¼] DNS records adding sample
+[ãƒ‰ãƒ¡ã‚¤ãƒ³å] DNS records adding sample
 default._domainkey      IN      TXT     "k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GN..."
 _adsp._domainkey        IN      TXT     "dkim=unknown"
 ```
 
-### 13.TXTƒŒƒR[ƒhì¬
+### 13.TXTãƒ¬ã‚³ãƒ¼ãƒ‰ä½œæˆ
 
-‘ÎÛƒhƒƒCƒ“‚ÉTXTƒŒƒR[ƒh‚ğ’Ç‰Á‚·‚éi¦ƒeƒXƒgƒ‚[ƒh‚ÅÀ{‚·‚é‚½‚ß‚Éut=y;v‚ğ•t‚¯‚Ä‚¨‚­j
+å¯¾è±¡ãƒ‰ãƒ¡ã‚¤ãƒ³ã«TXTãƒ¬ã‚³ãƒ¼ãƒ‰ã‚’è¿½åŠ ã™ã‚‹ï¼ˆâ€»ãƒ†ã‚¹ãƒˆãƒ¢ãƒ¼ãƒ‰ã§å®Ÿæ–½ã™ã‚‹ãŸã‚ã«ã€Œt=y;ã€ã‚’ä»˜ã‘ã¦ãŠãï¼‰
 ```sh
 #BIND
 default._domainkey      IN      TXT     "k=rsa; t=y; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GN..."
@@ -138,40 +138,40 @@ txt default._domainkey k=rsa; t=y; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GN...
 txt _adsp._domainkey dkim=unknown
 ```
 
-### 14.‘—MƒeƒXƒg
+### 14.é€ä¿¡ãƒ†ã‚¹ãƒˆ
 
-‘ÎÛ‚ÌƒhƒƒCƒ“‚©‚çƒ[ƒ‹‚ğGmail/yahooƒ[ƒ‹ˆ¶‚É‘—M‚ğ‚µ‚ÄAƒƒbƒZ[ƒWƒ\[ƒX‚ÉˆÈ‰º‚ª‚ ‚ê‚ÎA–¼‚ª‚Å‚«‚Ä‚¢‚é
+å¯¾è±¡ã®ãƒ‰ãƒ¡ã‚¤ãƒ³ã‹ã‚‰ãƒ¡ãƒ¼ãƒ«ã‚’Gmail/yahooãƒ¡ãƒ¼ãƒ«å®›ã«é€ä¿¡ã‚’ã—ã¦ã€ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚½ãƒ¼ã‚¹ã«ä»¥ä¸‹ãŒã‚ã‚Œã°ã€ç½²åãŒã§ãã¦ã„ã‚‹
 ```sh
 #Gmail
 Authentication-Results: mx.google.com;
-       spf=pass (google.com: domain of ƒ[ƒ‹ƒAƒhƒŒƒX designates ƒT[ƒo[IP as permitted sender) smtp.mailfrom=ƒ[ƒ‹ƒAƒhƒŒƒX;
-       dkim=pass (test mode) header.i=@ƒhƒƒCƒ“
-#Yahooƒ[ƒ‹
-Received-SPF: pass (ƒ[ƒ‹ƒT[ƒo[–¼: domain of ƒ[ƒ‹ƒAƒhƒŒƒX designates 54.64.79.211 as permitted sender) receiver=ƒ[ƒ‹ƒT[ƒo[–¼; client-ip=ƒT[ƒo[IP; envelope-from=ƒ[ƒ‹ƒAƒhƒŒƒX;
-Authentication-Results: mta706.mail.djm.yahoo.co.jp  from=ƒhƒƒCƒ“; domainkeys=pass (ok); dkim=pass (ok); header.i=@ƒhƒƒCƒ“
+       spf=pass (google.com: domain of ãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹ designates ã‚µãƒ¼ãƒãƒ¼IP as permitted sender) smtp.mailfrom=ãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹;
+       dkim=pass (test mode) header.i=@ãƒ‰ãƒ¡ã‚¤ãƒ³
+#Yahooãƒ¡ãƒ¼ãƒ«
+Received-SPF: pass (ãƒ¡ãƒ¼ãƒ«ã‚µãƒ¼ãƒãƒ¼å: domain of ãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹ designates 54.64.79.211 as permitted sender) receiver=ãƒ¡ãƒ¼ãƒ«ã‚µãƒ¼ãƒãƒ¼å; client-ip=ã‚µãƒ¼ãƒãƒ¼IP; envelope-from=ãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹;
+Authentication-Results: mta706.mail.djm.yahoo.co.jp  from=ãƒ‰ãƒ¡ã‚¤ãƒ³; domainkeys=pass (ok); dkim=pass (ok); header.i=@ãƒ‰ãƒ¡ã‚¤ãƒ³
 ```
 
-### 15.óMƒeƒXƒg
+### 15.å—ä¿¡ãƒ†ã‚¹ãƒˆ
 
-Gmail/yahooƒ[ƒ‹‚©‚ç‘ÎÛƒhƒƒCƒ“‚Ìƒ[ƒ‹ƒAƒhƒŒƒX‚É‘—M‚ğ‚µ‚ÄAˆÈ‰º‚ª‚ ‚ê‚ÎADKIMŒŸØ‚ª‚Å‚«‚Ä‚¢‚é
+Gmail/yahooãƒ¡ãƒ¼ãƒ«ã‹ã‚‰å¯¾è±¡ãƒ‰ãƒ¡ã‚¤ãƒ³ã®ãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹ã«é€ä¿¡ã‚’ã—ã¦ã€ä»¥ä¸‹ãŒã‚ã‚Œã°ã€DKIMæ¤œè¨¼ãŒã§ãã¦ã„ã‚‹
 ```sh
 #Gmail
 X-DKIM-Originator: xxx@gmail.com
 X-DKIM-Policy-Detail: dk_sender=accept; dkim_author=accept;
   dkim_ADSP=accept
-Authentication-Results: ƒ[ƒ‹ƒT[ƒo[–¼; dkim=pass
+Authentication-Results: ãƒ¡ãƒ¼ãƒ«ã‚µãƒ¼ãƒãƒ¼å; dkim=pass
   header.i=@gmail.com; domainkeys=none
-#Yahooƒ[ƒ‹
+#Yahooãƒ¡ãƒ¼ãƒ«
 X-DKIM-Originator: xxx@yahoo.co.jp
 X-DKIM-Policy-Detail: dk_sender=accept; dkim_author=accept;
   dkim_ADSP=accept
-Authentication-Results: ƒ[ƒ‹ƒT[ƒo[–¼; dkim=pass
+Authentication-Results: ãƒ¡ãƒ¼ãƒ«ã‚µãƒ¼ãƒãƒ¼å; dkim=pass
   header.i=@yahoo.co.jp; domainkeys=pass
   header.i=xxx@yahoo.co.jp
 ```
 
-### 16.DKIM‚ÌƒeƒXƒgƒ‚[ƒh‚ğŠO‚·
+### 16.DKIMã®ãƒ†ã‚¹ãƒˆãƒ¢ãƒ¼ãƒ‰ã‚’å¤–ã™
 
-TXTƒŒƒR[ƒh‚©‚çut=y;víœ‚·‚é
+TXTãƒ¬ã‚³ãƒ¼ãƒ‰ã‹ã‚‰ã€Œt=y;ã€å‰Šé™¤ã™ã‚‹
 
-### 17.ˆÈã
+### 17.ä»¥ä¸Š
