@@ -95,11 +95,11 @@ chmod 0755 /var/qmail/bin/qmail-remote
 ### 9.メール受信時にDKIM検証を行うwrapperをダウンロード
 オリジナルのqmail-queueはリネームしてwrapperからキックされるようにする
 ```sh
-~~mv /var/qmail/bin/qmail-queue /var/qmail/bin/qmail-queue.orig~~
-~~wget -q -O /var/qmail/bin/qmail-queue --no-check-certificate https://github.com/corokada/return-qmail/raw/master/qmail-queue~~
-~~chown qmailq.qmail qmail-queue~~
-~~chmod 711 /var/qmail/bin/qmail-queue~~
-~~chmod u+s /var/qmail/bin/qmail-queue~~
+mv /var/qmail/bin/qmail-queue /var/qmail/bin/qmail-queue.orig
+wget -q -O /var/qmail/bin/qmail-queue --no-check-certificate https://github.com/corokada/return-qmail/raw/master/qmail-queue
+chown qmailq.qmail qmail-queue
+chmod 711 /var/qmail/bin/qmail-queue
+chmod u+s /var/qmail/bin/qmail-queue
 ```
 
 ### 10.DKIM署名用の秘密鍵を保存するディレクトリを作成
