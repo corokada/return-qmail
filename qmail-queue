@@ -1,0 +1,26 @@
+#!/bin/sh
+
+#
+# DKIM verifying for qmail
+#
+# Author: corokada
+#
+
+[ "$QMAILQUEUE" ] || QMAILQUEUE="/var/qmail/bin/qmail-queue.orig"
+
+ inmsg=`mktemp -p /var/domainkeys-verify -t verify.XXXXXXXXXXXXXXX`
+outmsg=`mktemp -p /var/domainkeys-verify -t verify.XXXXXXXXXXXXXXX`
+
+cat - >"$inmsg"
+
+DKIM=`egrep "^(DKIM|DomainKey)-Signature:" "$inmsg"`
+
+if [ -n "$DKIM" ]; then
+    /var/qmail/bin/dkimverify.pl < "$inmsg" | tr -d '\r' > "$outmsg"
+    cat "$inmsg" >> "$outmsg"
+    cat "$outmsg" | "$QMAILQUEUE" "$@"
+else
+    cat "$inmsg" | "$QMAILQUEUE" "$@"
+fi
+
+rm -rf "$inmsg" "$outmsg"
