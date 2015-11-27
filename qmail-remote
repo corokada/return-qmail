@@ -1,0 +1,56 @@
+#!/bin/sh
+
+#
+# DKIM signing for qmail
+#
+# permissions must be 0755
+# 
+# Author: Joerg Backschues
+#
+
+[ "$DKSIGN" ]   || DKSIGN="/etc/domainkeys/%/default"
+[ "$DKREMOTE" ] || DKREMOTE="/var/qmail/bin/qmail-remote.orig"
+
+# parent domains (see RFC 4871 3.8)
+
+FQDN=${2##*@}
+TLD=`echo $FQDN | awk 'BEGIN {FS = "."} {print $NF}'`
+DOM=`echo $FQDN | awk 'BEGIN {FS = "."} {print $(NF-1)}'`
+
+# get domainkey file
+ 
+if [[ $DKSIGN == *%* ]] ; then
+    DOMAIN=$DOM.$TLD
+    DKSIGN="${DKSIGN%%%*}${DOMAIN}${DKSIGN#*%}"
+fi
+
+if [ -f "$DKSIGN" ] ; then
+
+    # domain with domainkey
+
+     inmsg=`mktemp -p /var/domainkeys -t dkim.XXXXXXXXXXXXXXX`
+    outmsg=`mktemp -p /var/domainkeys -t dkim.XXXXXXXXXXXXXXX`
+ 
+    # sign message
+
+    cat - >"$inmsg"
+    libdkimtest -y`cat /etc/domainkeys/$DOMAIN/selector` -d"$DOMAIN" -i -ct -t -x864000 -s "$inmsg" "$DKSIGN" "$outmsg" 2>/dev/null
+ 
+    # remove shift in
+
+    (cat "$outmsg" | tr -d '\015') | "$DKREMOTE" "$@"
+    retval=$?
+    
+    rm -f "$inmsg" "$outmsg"
+    
+    echo "qmail-remote: domainkey for $2" | /var/qmail/bin/splogger qmail;
+    
+    exit $retval
+
+else
+
+    # domain without domainkey
+
+    exec "$DKREMOTE" "$@"
+
+fi
