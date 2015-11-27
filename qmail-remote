@@ -34,7 +34,10 @@ if [ -f "$DKSIGN" ] ; then
     # sign message
 
     cat - >"$inmsg"
-    libdkimtest -y`cat /etc/domainkeys/$DOMAIN/selector` -d"$DOMAIN" -i -ct -t -x864000 -s "$inmsg" "$DKSIGN" "$outmsg" 2>/dev/null
+    #libdkimtest -y`cat /etc/domainkeys/$DOMAIN/selector` -d"$DOMAIN" -i -ct -t -x864000 -s "$inmsg" "$DKSIGN" "$outmsg" 2>/dev/null
+    /var/qmail/bin/dkimsign.pl --type=domainkeys --selector=default --key=/etc/domainkeys/$DOMAIN/default --method=nofws < $inmsg | tr -d '\r' > $outmsg
+    /var/qmail/bin/dkimsign.pl --type=dkim --selector=default --key=/etc/domainkeys/$DOMAIN/default --method=relaxed/relaxed --algorithm=rsa-sha256 < $inmsg | tr -d '\r' >> $outmsg
+    cat $inmsg >> $outmsg
  
     # remove shift in
 
