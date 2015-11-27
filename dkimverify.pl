@@ -54,53 +54,53 @@ printwrap("X-DKIM-Policy-Detail: $pol_det_str", 72, "  ", "\r\n");
 ## In order to uncomment the following, you must define a valid
 ## $host_identifier
 
-#my $host_identifier="example.com"
-#my $ar_str = "";
-#my $dksigs = 0;
-#my $dkimsigs = 0;
-#foreach my $signature ($dkim->signatures) {
-#	if (ref($signature) eq "Mail::DKIM::DkSignature") {
-#		$ar_str .= "  domainkeys=" . $signature->result_detail . " ";
-#		$dksigs++;
-#	} else {
-#		$ar_str .= "  dkim=";
-#		if ($signature->result eq "fail") {
-#			my @policies = $dkim->policies;
-#			my $marked = 0;
-#			foreach my $policy (@policies) {
-#				my $result = $policy->apply($dkim);
-#				if ($result eq "reject") {
-#					$ar_str .= $signature->result_detail . " ";
-#					$marked = 1;
-#					last;
-#				} elsif ($result eq "neutral") {
-#					$ar_str .= "policy (failure is neutral according to " . $policy->name . ") ";
-#					$marked = 1;
-#					last;
-#				}
-#			}
-#			if ($marked == 0) {
-#				$ar_str .= "pass (failure is fine according to sender and author) ";
-#			}
-#		} else {
-#			$ar_str .= $signature->result_detail . " ";
-#		}
-#		$dkimsigs++;
-#	}
-#	$ar_str .= "header.i=".$signature->identity . ";";
-#}
-#if ($dksigs == 0) {
-#	$ar_str .= "  domainkeys=none;";
-#}
-#if ($dkimsigs == 0) {
-#	$ar_str .= "  dkim=none;";
-#}
+my $host_identifier="example.com";
+my $ar_str = "";
+my $dksigs = 0;
+my $dkimsigs = 0;
+foreach my $signature ($dkim->signatures) {
+	if (ref($signature) eq "Mail::DKIM::DkSignature") {
+		$ar_str .= "  domainkeys=" . $signature->result_detail . " ";
+		$dksigs++;
+	} else {
+		$ar_str .= "  dkim=";
+		if ($signature->result eq "fail") {
+			my @policies = $dkim->policies;
+			my $marked = 0;
+			foreach my $policy (@policies) {
+				my $result = $policy->apply($dkim);
+				if ($result eq "reject") {
+					$ar_str .= $signature->result_detail . " ";
+					$marked = 1;
+					last;
+				} elsif ($result eq "neutral") {
+					$ar_str .= "policy (failure is neutral according to " . $policy->name . ") ";
+					$marked = 1;
+					last;
+				}
+			}
+			if ($marked == 0) {
+				$ar_str .= "pass (failure is fine according to sender and author) ";
+			}
+		} else {
+			$ar_str .= $signature->result_detail . " ";
+		}
+		$dkimsigs++;
+	}
+	$ar_str .= "header.i=".$signature->identity . ";";
+}
+if ($dksigs == 0) {
+	$ar_str .= "  domainkeys=none;";
+}
+if ($dkimsigs == 0) {
+	$ar_str .= "  dkim=none;";
+}
 #if (exists $ENV{RELAYCLIENT} && exists $ENV{TCPREMOTEINFO}) {
 #	# We assume it's smtp-auth
 #	$ar_str .= "  auth=pass smtp.auth=".$ENV{TCPREMOTEINFO}.";";
 #} else {
 #	$ar_str .= "  auth=none;";
 #}
-#
-#$ar_str =~ s/;\s*$//;
-#printwrap("Authentication-Results: $host_identifier; $ar_str\r\n", 72, "  ", "\r\n");
+
+$ar_str =~ s/;\s*$//;
+printwrap("Authentication-Results: $host_identifier; $ar_str\r\n", 72, "  ", "\r\n");
