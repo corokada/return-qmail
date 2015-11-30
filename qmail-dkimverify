@@ -1,0 +1,30 @@
+#!/bin/sh
+
+#
+# DKIM verifying for qmail
+#
+# Author: corokada
+#
+# Origin: Kyle Wheeler
+#         http://www.memoryhole.net/qmail/dkverifier.sh
+#
+
+[ "$DKQUEUE" ] || DKQUEUE=/var/qmail/bin/qmail-queue
+[ "$DKIMVERIFY" ] || DKIMVERIFY=/var/qmail/bin/dkimverify.pl
+
+inmsg=`mktemp -p /var/domainkeys-verify -t verify.XXXXXXXXXXXXXXX`
+cat - >"$inmsg"
+
+#DKIM/Domainkey Signature check
+SIG=`egrep "^(DKIM|DomainKey)-Signature:" "$inmsg"`
+
+if [ -n "$SIG" ]; then
+    ( $DKIMVERIFY < "$inmsg" | tr -d '\r'; cat "$inmsg") | $DKQUEUE "$@"
+    retval=$?
+else
+    cat "$inmsg" | $DKQUEUE "$@"
+    retval=$?
+fi
+rm -rf "$inmsg"
+
+exit $retval
