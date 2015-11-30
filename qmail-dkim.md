@@ -93,29 +93,59 @@ chmod 0755 /var/qmail/bin/qmail-remote
 ```
 
 ### 9.メール受信時にDKIM検証を行うwrapperをダウンロード
-~~オリジナルのqmail-queueはリネームしてwrapperからキックされるようにする~~
 ```sh
-#mv /var/qmail/bin/qmail-queue /var/qmail/bin/qmail-queue.orig
-#wget -q -O /var/qmail/bin/qmail-queue --no-check-certificate https://github.com/corokada/return-qmail/raw/master/qmail-queue
-#chown qmailq.qmail qmail-queue
-#chmod 711 /var/qmail/bin/qmail-queue
-#chmod u+s /var/qmail/bin/qmail-queue
+wget -q -O /var/qmail/bin/qmail-dkimverify --no-check-certificate https://raw.githubusercontent.com/corokada/return-qmail/master/qmail-dkimverify
+chown root:qmail /var/qmail/bin/qmail-dkimverify
+chmod 0755 /var/qmail/bin/qmail-dkimverify
 ```
-~~上手く動きませんでした。。~~
 
-### 10.DKIM署名用の秘密鍵を保存するディレクトリを作成
+### 10.QMAILQUEUEを利用できるようにする
+QMAILQUEUEを利用してqmail-dkimverifyを呼び出しDKIM検証を行う為、qmailをリコンパイルする
+```sh
+cd /usr/local/src
+wget -q -O qmailqueue-patch --no-check-certificate https://raw.githubusercontent.com/corokada/return-qmail/master/qmailqueue-patchhttps://raw.githubusercontent.com/corokada/return-qmail/master/qmailqueue-patch
+cd qmail-1.03
+patch -p1 < ../qmailqueue-patch
+rm -f `cat TARGETS`
+make
+mv /var/qmail/bin/qmail-smtpd /var/qmail/bin/qmail-smtpd.orig
+cp qmail-smtpd /var/qmail/bin/qmail-smtpd
+chown root.qmail /var/qmail/bin/qmail-smtpd
+chmod 711 /var/qmail/bin/qmail-smtpd
+```
+qmailのrestartは必須
+```sh
+/etc/init.d/qmail restart
+```
+
+### 11.QMAILQUEUEを設定する
+修正をして、定義ファイルを更新する
+```sh
+vi /path/to/tcp.smtp
+```
+```sh
+:allow
+  ↓↓↓↓↓
+:allow,QMAILQUEUE="/var/qmail/bin/qmail-dkimverify"
+```
+定義ファイルを更新
+```sh
+/usr/local/bin/tcprules /path/to/tcp.smtp.cdb /path/to/tcp.smtp.tmp < /path/to/tcp.smtp
+```
+
+### 12.DKIM署名用の秘密鍵を保存するディレクトリを作成
 ```sh
 mkdir -p /usr/local/etc/domainkeys
 ln -s /usr/local/etc/domainkeys /etc/domainkeys
 ```
 
-### 11.DKIM署名用の秘密鍵を作成するShellをダウンロード
+### 13.DKIM署名用の秘密鍵を作成するShellをダウンロード
 ```sh
 wget -q -O /root/dkim_keygen.sh --no-check-certificate https://github.com/corokada/return-qmail/raw/master/dkim_keygen.sh
 chmod +x /root/dkim_keygen.sh
 ```
 
-### 12.秘密鍵を作成
+### 14.秘密鍵を作成
 DKIM署名用の秘密鍵を作成
 ```sh
 /root/dkim_keygen.sh [ドメイン名]
@@ -127,7 +157,7 @@ default._domainkey      IN      TXT     "k=rsa; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GN..
 _adsp._domainkey        IN      TXT     "dkim=unknown"
 ```
 
-### 13.TXTレコード作成
+### 15.TXTレコード作成
 
 対象ドメインにTXTレコードを追加する（※テストモードで実施するために「t=y;」を付けておく）
 ```sh
@@ -139,7 +169,7 @@ txt default._domainkey k=rsa; t=y; p=MIGfMA0GCSqGSIb3DQEBAQUAA4GN...
 txt _adsp._domainkey dkim=unknown
 ```
 
-### 14.送信テスト
+### 16.送信テスト
 
 対象のドメインからメールをGmail/yahooメール宛に送信をして、メッセージソースに以下があれば、署名ができている
 ```sh
@@ -152,7 +182,7 @@ Received-SPF: pass (メールサーバー名: domain of メールアドレス de
 Authentication-Results: mta706.mail.djm.yahoo.co.jp  from=ドメイン; domainkeys=pass (ok); dkim=pass (ok); header.i=@ドメイン
 ```
 
-### 15.受信テスト
+### 17.受信テスト
 
 Gmail/yahooメールから対象ドメインのメールアドレスに送信をして、以下があれば、DKIM検証ができている
 ```sh
@@ -171,8 +201,8 @@ Authentication-Results: メールサーバー名; dkim=pass
   header.i=xxx@yahoo.co.jp
 ```
 
-### 16.DKIMのテストモードを外す
+### 18.DKIMのテストモードを外す
 
 TXTレコードから「t=y;」削除する
 
-### 17.以上
+### 19.以上
