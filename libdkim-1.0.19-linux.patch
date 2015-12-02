@@ -1,5 +1,5 @@
 This patch modifies Alt-N's libdkim package to compile on Linux.  This has only
-been tested on Gentoo linux.
+been tested on Gentoo linux. 
 
 Installation instructions:
  % wget http://downloads.sourceforge.net/libdkim/libdkim-1.0.19.zip
