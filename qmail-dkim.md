@@ -35,6 +35,10 @@ install -m 644 libdomainkeys.a /usr/local/lib
 install -m 644 domainkeys.h dktrace.h /usr/local/include
 install -m 755 dknewkey /usr/local/bin
 ```
+```sh
+$ sha256sum libdomainkeys-0.69.tar.gz
+7e10dd7c8d20d8fde181a2550c77e241c27750ec74e0b8859e2664136d7aa21e  libdomainkeys-0.69.tar.gz
+```
 
 ### 4.libdkimをインストール
 
@@ -51,6 +55,12 @@ patch -p2 < ../../libdkim-1.0.19-extra-options.patch
 make
 make install
 ```
+```sh
+$ sha256sum libdkim-1.0.19.zip libdkim-1.0.19-linux.patch libdkim-1.0.19-extra-options.patch
+1935c88ea3d053ec2039114d900ac9eb5962adee10e0ec163777dfa5f3bd4eed  libdkim-1.0.19.zip
+a008f94e34864c90070336cb36b92f606bcc5262c72e5004c4c46d5b014eb339  libdkim-1.0.19-linux.patch
+039769a4a39c1420111c69987bee21205e2e05fb35cf134a7c03f10888c4f2b9  libdkim-1.0.19-extra-options.patch
+```
 
 ### 5.DKIM署名・検証スクリプトをダウンロード
 perlスクリプトをダウンロード
@@ -62,6 +72,12 @@ wget -q -O /var/qmail/bin/dkimverify.pl --no-check-certificate https://github.co
 chmod +x /var/qmail/bin/dkimverify.pl
 chgrp qmail /var/qmail/bin/dkimverify.pl
 ```
+```sh
+$ sha256sum /var/qmail/bin/dkimsign.pl /var/qmail/bin/dkimverify.pl
+3c420eff7978ee47379d19b42bcbc224b909aeea0c70759bf98d16e9375e0c97  /var/qmail/bin/dkimsign.pl
+4fc2f0f866eb6fa1c60705d342e122b89e5e43855b17549fffd6e68a98736aca  /var/qmail/bin/dkimverify.pl
+```
+
 DKIM検証の為にMXレコードに指定されているメールサーバー名に書き換える
 ```sh
 sed -i -e "s/example.com/`hostname`/" /var/qmail/bin/dkimverify.pl
@@ -91,12 +107,20 @@ wget -q -O /var/qmail/bin/qmail-remote --no-check-certificate https://github.com
 chown root:qmail /var/qmail/bin/qmail-remote
 chmod 0755 /var/qmail/bin/qmail-remote
 ```
+```sh
+$ sha256sum /var/qmail/bin/qmail-remote
+eafeb48367a6c90ecde404d5e801c46a5db24dbc5f3387ccbf9e2fe39652b4b7  /var/qmail/bin/qmail-remote
+```
 
 ### 9.メール受信時にDKIM検証を行うwrapperをダウンロード
 ```sh
 wget -q -O /var/qmail/bin/qmail-dkimverify --no-check-certificate https://raw.githubusercontent.com/corokada/return-qmail/master/qmail-dkimverify
 chown root:qmail /var/qmail/bin/qmail-dkimverify
 chmod 0755 /var/qmail/bin/qmail-dkimverify
+```
+```sh
+$ sha256sum /var/qmail/bin/qmail-dkimverify
+7fd23e24fac0ce988f301d73b15484322fd130a04df6da931c8a556056eea889  /var/qmail/bin/qmail-dkimverify
 ```
 
 ### 10.QMAILQUEUEを利用できるようにする
@@ -112,6 +136,10 @@ mv /var/qmail/bin/qmail-smtpd /var/qmail/bin/qmail-smtpd.orig
 cp qmail-smtpd /var/qmail/bin/qmail-smtpd
 chown root.qmail /var/qmail/bin/qmail-smtpd
 chmod 711 /var/qmail/bin/qmail-smtpd
+```
+```sh
+$ sha256sum qmailqueue-patch
+52e82aaa34e9f1308b063cc986a701f67e161662e9f789bb12af03a381530f94  qmailqueue-patch
 ```
 qmailのrestartは必須
 ```sh
