@@ -50,16 +50,46 @@ wget -q -O libdkim-1.0.19-linux.patch --no-check-certificate https://github.com/
 wget -q -O libdkim-1.0.19-extra-options.patch --no-check-certificate https://github.com/corokada/return-qmail/raw/master/libdkim-1.0.19-extra-options.patch
 unzip libdkim-1.0.19.zip
 cd libdkim/src
-patch -p2 < ../../libdkim-1.0.19-linux.patch
-patch -p2 < ../../libdkim-1.0.19-extra-options.patch
+patch -p2 --binary < ../../libdkim-1.0.19-linux.patch
+patch -p2 --binary < ../../libdkim-1.0.19-extra-options.patch
 make
 make install
 ```
 ```sh
 $ sha256sum libdkim-1.0.19.zip libdkim-1.0.19-linux.patch libdkim-1.0.19-extra-options.patch
 1935c88ea3d053ec2039114d900ac9eb5962adee10e0ec163777dfa5f3bd4eed  libdkim-1.0.19.zip
-a008f94e34864c90070336cb36b92f606bcc5262c72e5004c4c46d5b014eb339  libdkim-1.0.19-linux.patch
-039769a4a39c1420111c69987bee21205e2e05fb35cf134a7c03f10888c4f2b9  libdkim-1.0.19-extra-options.patch
+6c0bad64ff3538e0deac51343cefa5f22ab9e85681f166a2803ffc3313171b17  libdkim-1.0.19-linux.patch
+c8b554518d0a99daae370782268d751f24ed957ca9914fd9611938d9b27007a6  libdkim-1.0.19-extra-options.patch
+```
+※オリジナルパッチについて
+libdkim-1.0.19-linux.patchとlibdkim-1.0.19-extra-options.patchの中身をみると、改行コードが「CR+LF」「LF」が混在しているファイルでした
+
+そのためソースファイルは、「CR+LF」で保存されている為、githubに上がっているパッチは「CR+LF」に変更してある
+```sh
+$ cat -en libdkim-1.0.19-linux.patch
+     1  This patch modifies Alt-N's libdkim package to compile on Linux.  This has only$
+     2  been tested on Gentoo linux.$
+     3  $
+     4  Installation instructions:$
+     5   % wget http://downloads.sourceforge.net/libdkim/libdkim-1.0.19.zip$
+     6   % wget http://www.bltweb.net/qmail/libdkim-1.0.19-linux.patch$
+     7   % unzip libdkim-1.0.19$
+     8   % cd libdkim/src$
+     9   % patch -p2 < ../../libdkim-1.0.19-linux.patch$
+    10  $
+    11  $
+    12  diff -Naur libdkim.orig/src/Makefile libdkim/src/Makefile$
+    13  --- libdkim.orig/src/Makefile   2009-03-24 08:38:48.000000000 -0500$
+    14  +++ libdkim/src/Makefile        2009-03-24 08:39:55.000000000 -0500$
+    15  @@ -1,15 +1,10 @@$
+    16   # libdkim makefile for UNIX^M$
+    17   #^M$
+    18   ^M$
+    19  -#ifdef LINUX^M$
+    20  -CFLAGS  = -c^M$
+    ・
+    ・
+    ・
 ```
 
 ### 5.DKIM署名・検証スクリプトをダウンロード
