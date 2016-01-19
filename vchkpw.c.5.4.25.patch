@@ -1,0 +1,36 @@
+*** vchkpw.c.org        2007”N 10ŒŽ  2“ú ((‰Î))
+--- vchkpw.c    2009”N  7ŒŽ 31“ú ((‹à))
+***************
+*** 744,750 ****
+     unsigned char h;
+     int j;
+
+!    hmac_md5( (unsigned char *) challenge, strlen(challenge), (unsigned char *) password, strlen(password), digest);
+
+     digascii[32]=0;
+
+--- 744,750 ----
+     unsigned char h;
+     int j;
+
+!    hmac_md5( (unsigned char *) response, strlen(response), (unsigned char *) password, strlen(password), digest);
+
+     digascii[32]=0;
+
+***************
+*** 756,762 ****
+       digascii[(2*j)+1]=hextab[h];
+     }
+     /* printf("digascii: %s, response: %s", digascii, response); */
+!    return(strcmp(digascii,response));
+  }
+
+  int authapop( char *password, char *timestamp, char *clearpass)
+--- 756,762 ----
+       digascii[(2*j)+1]=hextab[h];
+     }
+     /* printf("digascii: %s, response: %s", digascii, response); */
+!    return(strcmp(digascii,challenge));
+  }
+
+  int authapop( char *password, char *timestamp, char *clearpass)
