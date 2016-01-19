@@ -1,0 +1,130 @@
+--- configure.orig	2007-09-30 11:11:14.000000000 +0900
++++ configure	2016-01-19 12:22:21.684976405 +0900
+@@ -6343,10 +6343,10 @@
+ qmaildir=""
+ for f in /var/qmail
+ do
+-    if test -d $f
+-    then
++#    if test -d $f
++#    then
+         qmaildir=$f
+-    fi
++#    fi
+ done
+ 
+ # Check whether --enable-qmaildir was given.
+@@ -6382,11 +6382,11 @@
+ qmailnewu=""
+ for f in "$qmaildir"/bin/qmail-newu /usr/sbin/qmail-newu
+ do
+-    if test -f $f
+-    then
++#    if test -f $f
++#    then
+         qmailnewu=$f
+         break
+-    fi
++#    fi
+ done
+ 
+ # Check whether --enable-qmail-newu was given.
+@@ -6407,14 +6407,14 @@
+ fi
+ 
+ 
+-if test ! -f "$qmailnewu"
+-then
+-    { echo "$as_me:$LINENO: result: no" >&5
+-echo "${ECHO_T}no" >&6; }
+-    { { echo "$as_me:$LINENO: error: Unable to find your qmail-newu file, specify --enable-qmail-newu=/full/path/to/qmail-newu" >&5
+-echo "$as_me: error: Unable to find your qmail-newu file, specify --enable-qmail-newu=/full/path/to/qmail-newu" >&2;}
+-   { (exit 1); exit 1; }; }
+-fi
++#if test ! -f "$qmailnewu"
++#then
++#    { echo "$as_me:$LINENO: result: no" >&5
++#echo "${ECHO_T}no" >&6; }
++#    { { echo "$as_me:$LINENO: error: Unable to find your qmail-newu file, specify --enable-qmail-newu=/full/path/to/qmail-newu" >&5
++#echo "$as_me: error: Unable to find your qmail-newu file, specify --enable-qmail-newu=/full/path/to/qmail-newu" >&2;}
++#   { (exit 1); exit 1; }; }
++#fi
+ 
+ { echo "$as_me:$LINENO: result: yes" >&5
+ echo "${ECHO_T}yes" >&6; }
+@@ -6431,11 +6431,11 @@
+ qmailinject=""
+ for f in "$qmaildir"/bin/qmail-inject /usr/sbin/qmail-inject /usr/bin/qmail-inject
+ do
+-    if test -f $f
+-    then
++#    if test -f $f
++#    then
+         qmailinject=$f
+         break
+-    fi
++#    fi
+ done
+ 
+ # Check whether --enable-qmail-inject was given.
+@@ -6456,14 +6456,14 @@
+ fi
+ 
+ 
+-if test ! -f "$qmailinject"
+-then
+-    { echo "$as_me:$LINENO: result: no" >&5
+-echo "${ECHO_T}no" >&6; }
+-    { { echo "$as_me:$LINENO: error: Unable to find your qmail-inject file, specify --enable-qmail-inject=/full/path/to/qmail-inject" >&5
+-echo "$as_me: error: Unable to find your qmail-inject file, specify --enable-qmail-inject=/full/path/to/qmail-inject" >&2;}
+-   { (exit 1); exit 1; }; }
+-fi
++#if test ! -f "$qmailinject"
++#then
++#    { echo "$as_me:$LINENO: result: no" >&5
++#echo "${ECHO_T}no" >&6; }
++#    { { echo "$as_me:$LINENO: error: Unable to find your qmail-inject file, specify --enable-qmail-inject=/full/path/to/qmail-inject" >&5
++#echo "$as_me: error: Unable to find your qmail-inject file, specify --enable-qmail-inject=/full/path/to/qmail-inject" >&2;}
++#   { (exit 1); exit 1; }; }
++#fi
+ 
+ { echo "$as_me:$LINENO: result: yes" >&5
+ echo "${ECHO_T}yes" >&6; }
+@@ -6480,11 +6480,11 @@
+ qmailnewmrh=""
+ for f in "$qmaildir"/bin/qmail-newmrh /usr/sbin/qmail-newmrh
+ do
+-    if test -f $f
+-    then
++#    if test -f $f
++#    then
+         qmailnewmrh=$f
+         break
+-    fi
++#    fi
+ done
+ 
+ # Check whether --enable-qmail-newmrh was given.
+@@ -6505,14 +6505,14 @@
+ fi
+ 
+ 
+-if test ! -f "$qmailnewmrh"
+-then
+-    { echo "$as_me:$LINENO: result: no" >&5
+-echo "${ECHO_T}no" >&6; }
+-    { { echo "$as_me:$LINENO: error: Unable to find your qmail-newmrh file, specify --enable-qmail-qmail-newmrh=/full/path/to/qmail-newmrh" >&5
+-echo "$as_me: error: Unable to find your qmail-newmrh file, specify --enable-qmail-qmail-newmrh=/full/path/to/qmail-newmrh" >&2;}
+-   { (exit 1); exit 1; }; }
+-fi
++#if test ! -f "$qmailnewmrh"
++#then
++#    { echo "$as_me:$LINENO: result: no" >&5
++#echo "${ECHO_T}no" >&6; }
++#    { { echo "$as_me:$LINENO: error: Unable to find your qmail-newmrh file, specify --enable-qmail-qmail-newmrh=/full/path/to/qmail-newmrh" >&5
++#echo "$as_me: error: Unable to find your qmail-newmrh file, specify --enable-qmail-qmail-newmrh=/full/path/to/qmail-newmrh" >&2;}
++#   { (exit 1); exit 1; }; }
++#fi
+ 
+ { echo "$as_me:$LINENO: result: yes" >&5
+ echo "${ECHO_T}yes" >&6; }

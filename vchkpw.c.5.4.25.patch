@@ -1,36 +1,20 @@
-*** vchkpw.c.org        2007”N 10ŒŽ  2“ú ((‰Î))
---- vchkpw.c    2009”N  7ŒŽ 31“ú ((‹à))
-***************
-*** 744,750 ****
-     unsigned char h;
-     int j;
-
-!    hmac_md5( (unsigned char *) challenge, strlen(challenge), (unsigned char *) password, strlen(password), digest);
-
-     digascii[32]=0;
-
---- 744,750 ----
-     unsigned char h;
-     int j;
-
-!    hmac_md5( (unsigned char *) response, strlen(response), (unsigned char *) password, strlen(password), digest);
-
-     digascii[32]=0;
-
-***************
-*** 756,762 ****
-       digascii[(2*j)+1]=hextab[h];
-     }
-     /* printf("digascii: %s, response: %s", digascii, response); */
-!    return(strcmp(digascii,response));
-  }
-
-  int authapop( char *password, char *timestamp, char *clearpass)
---- 756,762 ----
-       digascii[(2*j)+1]=hextab[h];
-     }
-     /* printf("digascii: %s, response: %s", digascii, response); */
-!    return(strcmp(digascii,challenge));
-  }
-
-  int authapop( char *password, char *timestamp, char *clearpass)
+--- vchkpw.c.orig	2007-10-02 07:31:06.000000000 +0900
++++ vchkpw.c	2016-01-19 12:27:08.888860536 +0900
+@@ -744,7 +744,7 @@
+    unsigned char h;
+    int j;
+ 
+-   hmac_md5( (unsigned char *) challenge, strlen(challenge), (unsigned char *) password, strlen(password), digest);
++   hmac_md5( (unsigned char *) response, strlen(response), (unsigned char *) password, strlen(password), digest);
+ 
+    digascii[32]=0;
+    
+@@ -756,7 +756,7 @@
+      digascii[(2*j)+1]=hextab[h];
+    }   
+    /* printf("digascii: %s, response: %s", digascii, response); */
+-   return(strcmp(digascii,response));
++   return(strcmp(digascii,challenge));
+ }
+ 
+ int authapop( char *password, char *timestamp, char *clearpass)
